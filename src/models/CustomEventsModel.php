@@ -107,6 +107,10 @@ class CustomEventsModel extends Model
      */
     public $dateCreated = null;
 
+    protected $_user = null;
+
+    protected $_element = null;
+
     // Public Methods
     // =========================================================================
 
@@ -122,12 +126,41 @@ class CustomEventsModel extends Model
 
     public function getElement ()
     {
+        if ( !$this->_element ) {
+            $this->_element = Craft::$app->getElements()->getElementById($this->elementId, $this->elementType, $this->siteId);
+        }
 
+        return $this->_element;
     }
 
+    /**
+     * Get the associated user, if any
+     *
+     * @return \craft\elements\User|null
+     */
     public function getUser ()
     {
+        if ( !$this->_user ) {
+            if ( $this->userId === null ) {
+                return null;
+            }
 
+            $this->_user = Craft::$app->getUsers()->getUserById($this->userId);
+        }
+
+        return $this->_user;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getName ()
+    {
+        if ( $this->getUser() && $this->getUser()->getName() ) {
+            return $this->getUser()->getName();
+        }
+
+        return '';
     }
 
     public static function createFromRecord (CustomEventsRecord $record)
@@ -139,5 +172,20 @@ class CustomEventsModel extends Model
         }
 
         return $model;
+    }
+
+    public static function getTableColumns ()
+    {
+        return [
+            'eventName'   => Craft::t('custom-events', 'Event name'),
+            'eventHandle' => Craft::t('custom-events', 'Event handle'),
+            'user'        => Craft::t('custom-events', 'User'),
+            'title'       => Craft::t('custom-events', 'Element title'),
+            'snapshot'    => Craft::t('custom-events', 'Snapshot'),
+            'ip'          => Craft::t('custom-events', 'IP address'),
+            'userAgent'   => Craft::t('custom-events', 'User agent'),
+            'location'    => Craft::t('custom-events', 'Location'),
+            'dateCreated' => Craft::t('custom-events', 'Date'),
+        ];
     }
 }

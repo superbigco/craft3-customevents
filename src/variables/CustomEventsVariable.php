@@ -52,4 +52,10 @@ class CustomEventsVariable
     {
         return CustomEvents::$plugin->customEventsService->getEventsByHandle($handle);
     }
+
+
+    public function getPixelUrl ($handle = null, $options = [])
+    {
+        return CustomEvents::$plugin->customEventsService->getPixelUrl($handle, $options);
+    }
 }

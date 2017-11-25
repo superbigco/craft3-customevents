@@ -31,7 +31,7 @@ class DefaultController extends Controller
      *         The actions must be in 'kebab-case'
      * @access protected
      */
-    protected $allowAnonymous = ['index', 'do-something'];
+    protected $allowAnonymous = [ 'index', 'event' ];
 
     // Public Methods
     // =========================================================================
@@ -39,7 +39,7 @@ class DefaultController extends Controller
     /**
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex ()
     {
         $result = 'Welcome to the DefaultController actionIndex() method';
 
@@ -49,10 +49,36 @@ class DefaultController extends Controller
     /**
      * @return mixed
      */
-    public function actionDoSomething()
+    public function actionEvent ()
     {
-        $result = 'Welcome to the DefaultController actionDoSomething() method';
+        $app       = Craft::$app;
+        $request   = $app->getRequest();
+        $handle    = $request->getParam('eventHandle');
+        $elementId = $request->getParam('elementId');
+        $svg       = '<svg width="1" height="1" viewBox="0 0 1 1" xmlns="http://www.w3.org/2000/svg"><title></title></svg>';
 
-        return $result;
+        /*Craft::$app->getResponse()
+                   ->getHeaders()
+                   ->set('Pragma', 'public')
+                   ->set('Expires', '0')
+                   ->set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
+                   ->set('Cache-Control', 'private')
+                   ->set('Content-Transfer-Encoding', 'binary');*/
+
+        $options = [];
+
+        if ( $elementId ) {
+            $element = $app->getElements()->getElementById($elementId);
+
+            if ( $element ) {
+                $options = [ 'element' => $element ];
+            }
+        }
+
+        CustomEvents::$plugin->customEventsService->createEvent($handle, $options);
+
+        return $app->getResponse()->sendContentAsFile($svg, 'blank.svg', [
+            'mimeType' => 'image/svg+xml',
+        ]);
     }
 }

@@ -62,11 +62,13 @@ class CustomEvents extends Plugin
             $this->controllerNamespace = 'superbig\customevents\console\controllers';
         }
 
+        $urlSegment = $this->getSettings()->urlSegment;
+
         Event::on(
             UrlManager::class,
             UrlManager::EVENT_REGISTER_SITE_URL_RULES,
-            function (RegisterUrlRulesEvent $event) {
-                $event->rules['siteActionTrigger1'] = 'custom-events/default';
+            function (RegisterUrlRulesEvent $event) use ($urlSegment) {
+                $event->rules[ $urlSegment . '/event' ] = 'custom-events/default/event';
             }
         );
 

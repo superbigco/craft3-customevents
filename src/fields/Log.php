@@ -17,6 +17,8 @@ use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\helpers\Db;
+use superbig\customevents\models\CustomEventsModel;
+use superbig\customevents\records\CustomEventsRecord;
 use superbig\customevents\services\CustomEventsService;
 use yii\db\Schema;
 use craft\helpers\Json;
@@ -35,6 +37,23 @@ class Log extends Field
      * @var string
      */
     public $eventHandle = '';
+
+    /**
+     * @var array
+     */
+    public $tableColumns = [];
+
+    /**
+     * @var array
+     */
+    protected $availableTableColumns = [];
+
+    public function init ()
+    {
+        parent::init();
+
+        $this->availableTableColumns = CustomEventsModel::getTableColumns();
+    }
 
     // Static Methods
     // =========================================================================
@@ -59,6 +78,7 @@ class Log extends Field
         $rules = array_merge($rules, [
             [ 'eventHandle', 'string' ],
             [ 'eventHandle', 'default', 'value' => '' ],
+            [ 'tableColumns', 'default', 'value' => [] ],
         ]);
 
         return $rules;
@@ -97,9 +117,19 @@ class Log extends Field
         return Craft::$app->getView()->renderTemplate(
             'custom-events/_components/fields/Log_settings',
             [
-                'field' => $this,
+                'field'                 => $this,
+                'availableTableColumns' => $this->availableTableColumns,
             ]
         );
+    }
+
+    public function getEnabledTableColumns ()
+    {
+        $tableColumns = $this->tableColumns;
+
+        return array_filter($this->availableTableColumns, function ($key) use ($tableColumns) {
+            return in_array($key, $tableColumns);
+        }, ARRAY_FILTER_USE_KEY);
     }
 
     /**
@@ -107,16 +137,18 @@ class Log extends Field
      */
     public function getInputHtml ($value, ElementInterface $element = null): string
     {
+        $view = Craft::$app->getView();
+
         // Register our asset bundle
-        Craft::$app->getView()->registerAssetBundle(LogFieldAsset::class);
+        $view->registerAssetBundle(LogFieldAsset::class);
 
         // Get our id and namespace
-        $id           = Craft::$app->getView()->formatInputId($this->handle);
-        $namespacedId = Craft::$app->getView()->namespaceInputId($id);
+        $id           = $view->formatInputId($this->handle);
+        $namespacedId = $view->namespaceInputId($id);
 
 
         // Render the input template
-        return Craft::$app->getView()->renderTemplate(
+        return $view->renderTemplate(
             'custom-events/_components/fields/Log_input',
             [
                 'name'         => $this->handle,

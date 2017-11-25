@@ -23,3 +23,12 @@
     name: 'eventHandle',
     value: field['eventHandle']})
 }}
+
+{{ forms.checkboxGroupField({
+    label: 'Table columns',
+    instructions: 'Select which table columns to show',
+    id: 'tableColumns',
+    name: 'tableColumns',
+    options: availableTableColumns,
+    values: field['tableColumns']})
+}}

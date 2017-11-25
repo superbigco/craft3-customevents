@@ -11,6 +11,7 @@
 namespace superbig\customevents\services;
 
 use craft\base\ElementInterface;
+use craft\helpers\UrlHelper;
 use superbig\customevents\CustomEvents;
 
 use Craft;
@@ -96,6 +97,23 @@ class CustomEventsService extends Component
 
             $this->saveRecord($model, $unique);
         }
+    }
+
+    /**
+     * @param null  $handle
+     * @param array $options
+     *
+     * @return string
+     */
+    public function getPixelUrl ($handle = null, $options = [])
+    {
+        $params = [ 'eventHandle' => $handle ];
+
+        if ( !empty($options['element']) && $options['element'] instanceof ElementInterface ) {
+            $params['elementId'] = $options['element']->id;
+        }
+
+        return UrlHelper::siteUrl(CustomEvents::$plugin->getSettings()->urlSegment . '/event', $params);
     }
 
     /*

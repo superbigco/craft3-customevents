@@ -24,6 +24,12 @@
 
 return [
 
+    // Disable for logged in users
+    'disableForLoggedInUsers' => false,
+
+    // Disable for guests
+    'disableForGuests'        => false,
+
     'events' => [
         'viewedProposal' => [
             'name' => 'Viewed proposal'

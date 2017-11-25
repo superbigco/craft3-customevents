@@ -14,22 +14,25 @@
 
 {% import "_includes/forms" as forms %}
 
-<table class="data table fullwidth">
+{% if events %}
+    <table class="data table fullwidth">
+        <thead>
+        <tr>
+            {% for key, heading in field.getEnabledTableColumns() %}
+                <th>{{ heading }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
         {% for event in events %}
-                <tr>
-                        <td>{{ event.eventName }}</td>
-                        <td>{{ event.ip }}</td>
-                        <td>{{ event.dateCreated }}</td>
-                </tr>
-        {% else %}
-            <p>No events for this element.</p>
+            <tr>
+                {% for key, heading in field.getEnabledTableColumns() %}
+                    {% if event[key] is defined %}
+                        <td>{{ event[key] }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
         {% endfor %}
-</table>
-
-{{ forms.textField({
-        label: 'Some Field',
-        instructions: 'Enter some text here.',
-        id: name,
-        name: name,
-        value: value})
-}}
+    </table>
+{% else %}
+    <p>No events for this element.</p>
+{% endif %}

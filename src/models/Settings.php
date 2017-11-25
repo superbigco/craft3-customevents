@@ -26,9 +26,25 @@ class Settings extends Model
     // =========================================================================
 
     /**
+     * URL segment for controllers
+     *
      * @var string
      */
-    public $someAttribute = 'Some Default';
+    public $urlSegment = '_ce';
+
+    /**
+     * Disable for logged in users
+     *
+     * @var boolean
+     */
+    public $disableForLoggedInUsers = false;
+
+    /**
+     * Disable for guests
+     *
+     * @var boolean
+     */
+    public $disableForGuests = false;
 
     // Public Methods
     // =========================================================================
