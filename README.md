@@ -44,6 +44,13 @@ To install the plugin, follow these instructions.
 {% do craft.customEvents.createEventForElement('acceptedProposal', entry) %}
 ```
 
+### Tracking pixel that can be used in emails or by a JS function to trigger an event
+
+```twig
+ {% set url = craft.customEvents.getPixelUrl('openedProposalEmail', { element: entry }) %}
+ <img src="{{ url }}" alt="">
+```
+
 ## Custom Events Roadmap
 
 Some things to do, and ideas for potential features:
