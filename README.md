@@ -2,7 +2,7 @@
 
 Trigger custom events from templates and plugins that other plugins can hook into.
 
-![Screenshot](resources/img/plugin-logo.png)
+![Screenshot](resources/img/icon.png)
 
 ## Requirements
 
@@ -32,7 +32,17 @@ To install the plugin, follow these instructions.
 
 ## Using Custom Events
 
--Insert text here-
+### Create an event
+
+```twig
+{% do craft.customEvents.createEvent('viewedProposal') %}
+```
+
+### Create an event for an element
+
+```twig
+{% do craft.customEvents.createEventForElement('acceptedProposal', entry) %}
+```
 
 ## Custom Events Roadmap
 
