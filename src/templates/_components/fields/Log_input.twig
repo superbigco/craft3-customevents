@@ -1,0 +1,35 @@
+{#
+/**
+ * Custom Events plugin for Craft CMS 3.x
+ *
+ * Log Field Input
+ *
+ * @author    Superbig
+ * @copyright Copyright (c) 2017 Superbig
+ * @link      https://superbig.co
+ * @package   CustomEvents
+ * @since     2.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+<table class="data table fullwidth">
+        {% for event in events %}
+                <tr>
+                        <td>{{ event.eventName }}</td>
+                        <td>{{ event.ip }}</td>
+                        <td>{{ event.dateCreated }}</td>
+                </tr>
+        {% else %}
+            <p>No events for this element.</p>
+        {% endfor %}
+</table>
+
+{{ forms.textField({
+        label: 'Some Field',
+        instructions: 'Enter some text here.',
+        id: name,
+        name: name,
+        value: value})
+}}

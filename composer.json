@@ -1,0 +1,51 @@
+{
+    "name": "superbig/craft3-customevents",
+    "description": "Trigger custom events from templates and plugins that other plugins can hook into.",
+    "type": "craft-plugin",
+    "version": "2.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "custom events"
+    ],
+    "support": {
+        "docs": "https://github.com/sjelfull/craft3-customevents/blob/master/README.md",
+        "issues": "https://github.com/sjelfull/craft3-customevents/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Superbig",
+            "homepage": "https://superbig.co"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "~3.0.0-beta.23",
+        "tightenco/collect": "~v5.5.20"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+          "superbig\\customevents\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Custom Events",
+        "handle": "custom-events",
+        "schemaVersion": "2.0.0",
+        "hasCpSettings": false,
+        "hasCpSection": true,
+        "changelogUrl": "https://raw.githubusercontent.com/sjelfull/craft3-customevents/master/CHANGELOG.md",
+        "components": {
+            "customEventsService": "superbig\\customevents\\services\\CustomEventsService"
+        },
+        "class": "superbig\\customevents\\CustomEvents"
+    }
+}
